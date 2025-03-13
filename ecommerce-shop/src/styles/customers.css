@@ -1,3 +1,5 @@
+/* manage customers */
+
 table {
     border-collapse: collapse;
     text-align: left;
@@ -21,4 +23,59 @@ tr:nth-child(even){background-color:aliceblue;}
 
 .delete-link:hover {
     color: #B9463F;
+}
+
+
+/* update customer */
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 20px;
+    margin: 0 auto;
+}
+label {
+    font-weight: bold;
+    text-align: left;
+}
+
+input {
+    width: 100%;
+    border: 1.5px solid lightgrey;
+    min-height: 30px;
+    border-radius: 5px;
+}
+label#address-label {
+    grid-column: 1 / span 2;
+}
+button {
+    width: 50%;
+    max-width: 100px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    justify-self: center;
+    font-size: medium;
+    color: white
+}
+
+.submit-btn {
+    background-color: #5EAAA2;
+}
+.submit-btn:hover{
+    color:#5EAAA2;
+    border: 2px solid #5EAAA2;
+}
+.cancel-btn {
+    background-color: #B9463F;
+}
+.cancel-btn:hover {
+    color: #B9463F;
+    border: 2px solid #B9463F;
+}
+
+.submit-btn:hover,  .cancel-btn:hover {
+    background-color: white;
+    font-weight: 700;
+    cursor: pointer;
 }
