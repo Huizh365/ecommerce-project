@@ -67,7 +67,7 @@ export const router = createBrowserRouter([
                         element: < CreateCustomer />
                     },
                     {
-                        path:"update-customer/:id",
+                        path:"customers/:id",
                         element: < UpdateCustomer />
                     }
                     
