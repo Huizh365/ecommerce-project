@@ -1,0 +1,24 @@
+table {
+    border-collapse: collapse;
+    text-align: left;
+}
+
+thead {
+    background-color: #236AC3;
+    color: white;
+}
+
+th, td {
+    padding: 5px 3px;
+    border-bottom: 1px solid #f6f6f6;
+}
+
+tr:nth-child(even){background-color:aliceblue;}
+
+.delete-link {
+    color: #FD8058;
+}
+
+.delete-link:hover {
+    color: #B9463F;
+}

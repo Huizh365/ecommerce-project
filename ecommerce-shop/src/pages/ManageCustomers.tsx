@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router"
 import { ICustomer } from "../types/Customer"
 import { deleteCustomer, getCustomers } from "../services/customerService"
+import "../styles/customers.css"
 
 export const ManageCustomers = () => {
     const [customers, setCustomers] = useState<ICustomer[]>([])
@@ -18,7 +19,7 @@ export const ManageCustomers = () => {
 
     return (
         <>
-        <h3>Manage customers</h3>
+        <h2>Manage Customers</h2>
         <table id="customer-list">
             <thead>
             <tr>
@@ -47,7 +48,7 @@ export const ManageCustomers = () => {
                         <td>{c.city}</td>
                         <td>{c.country}</td>
                         <td>{c.postal_code}</td>
-                        <td><Link to={`${c.id}`}>UPDATE</Link> <a href="#" onClick={()=>handleDelete(c.id)}>DELETE</a></td>
+                        <td><Link to={`${c.id}`}>UPDATE |</Link> <a href="#" className="delete-link" onClick={()=>handleDelete(c.id)}> DELETE</a></td>
                     </tr>
                 ))
             }
