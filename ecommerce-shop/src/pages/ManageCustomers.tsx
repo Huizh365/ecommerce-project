@@ -20,6 +20,9 @@ export const ManageCustomers = () => {
     return (
         <>
         <h2>Manage Customers</h2>
+        <Link to="/admin/create-customer">
+                <button className="create-btn">Create Customer</button>
+        </Link>
         <table id="customer-list">
             <thead>
             <tr>
@@ -48,7 +51,7 @@ export const ManageCustomers = () => {
                         <td>{c.city}</td>
                         <td>{c.country}</td>
                         <td>{c.postal_code}</td>
-                        <td><Link to={`${c.id}`}>UPDATE |</Link> <a href="#" className="delete-link" onClick={()=>handleDelete(c.id)}> DELETE</a></td>
+                        <td><Link to={`${c.id}`}>UPDATE </Link> <a href="#" className="delete-link" onClick={()=>handleDelete(c.id)}> DELETE</a></td>
                     </tr>
                 ))
             }
