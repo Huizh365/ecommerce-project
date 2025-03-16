@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
-import { IOrder } from "../types/Order"
-import { deleteOrder, getOrders } from "../services/orderService"
-import { Link } from "react-router"
+import { IOrder, OrderUpdate } from "../types/Order"
+import { deleteOrder, getOrders, updateOrder } from "../services/orderService"
 
 
 export const ManageOrders = () => {
     const [orders, setOrders] = useState<IOrder[]>([])
+    const [orderId, setOrderId] = useState<number | null>(null)
+    const [changedPaymentStatus, setChangedPaymentStatus] = useState<string>('')
+    const [changedOrderStatus, setChangedOrderStatus] = useState<string>('')
 
     useEffect (() => {
         getOrders().then((data) => setOrders(data))
@@ -15,7 +17,38 @@ export const ManageOrders = () => {
             await deleteOrder(id)
             const newOrders = orders.filter(o => +o.id !== id)
             setOrders(newOrders)
+    }
+    
+    const handleUpdateOrder = (order:IOrder) => {
+        setOrderId(+order.id)
+        setChangedPaymentStatus(order.payment_status)
+        setChangedOrderStatus(order.order_status)
+    }
+
+    const handleSaveOrder = async (id: number) => {
+        const changedOrder: OrderUpdate = {
+            payment_status: changedPaymentStatus,
+            order_status: changedOrderStatus
         }
+        try{
+            await updateOrder(id, changedOrder)
+            const updatedOrders = orders.map(o => {
+                if (+o.id === id) {
+                    return {
+                        ...o, 
+                        payment_status: changedPaymentStatus, 
+                        order_status:changedOrderStatus
+                    }
+                }
+                return o;
+            })
+            console.log('Updated Orders in state:', updatedOrders)
+            setOrders(updatedOrders);
+            setOrderId(null);
+        } catch (error) {
+            console.error('Failed to update order:', error)
+        }
+    };
 
 
     return (
@@ -44,10 +77,30 @@ export const ManageOrders = () => {
                         <td>{o.customer_email}</td>
                         <td>{o.total_price}</td>
                         <td>{o.created_at}</td>
-                        <td>{o.payment_status}</td>
+                        <td>{orderId === +o.id ? (
+                                    <input
+                                        type="text"
+                                        value={changedPaymentStatus}
+                                        onChange={(e) => setChangedPaymentStatus(e.target.value)}
+                                    />
+                                ) : (
+                                    o.payment_status
+                                )}</td>
                         <td>{o.payment_id}</td>
-                        <td>{o.order_status}</td>
-                        <td><Link to={`${o.id}`}>UPDATE </Link> <a href="#" className="delete-link" onClick={()=>handleDelete(+o.id)}> DELETE</a></td>
+                        <td>{orderId === +o.id ? (
+                                    <input
+                                        type="text"
+                                        value={changedOrderStatus}
+                                        onChange={(e) => setChangedOrderStatus(e.target.value)}
+                                    />
+                                ) : (
+                                    o.order_status
+                                )}</td>
+                        <td>{orderId === +o.id ? (
+                                    <a href="#" onClick={() => handleSaveOrder(+o.id)}>SAVE</a>
+                                ) : (
+                                    <a href="#" onClick={() => handleUpdateOrder(o)}>UPDATE</a>
+                                )}  <a href="#" className="delete-link" onClick={()=>handleDelete(+o.id)}> DELETE</a></td>
                     </tr>
                 ))
             }
