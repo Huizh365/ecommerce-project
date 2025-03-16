@@ -48,7 +48,7 @@ export const ManageOrders = () => {
         } catch (error) {
             console.error('Failed to update order:', error)
         }
-    };
+    }
 
 
     return (
@@ -77,30 +77,37 @@ export const ManageOrders = () => {
                         <td>{o.customer_email}</td>
                         <td>{o.total_price}</td>
                         <td>{o.created_at}</td>
-                        <td>{orderId === +o.id ? (
-                                    <input
-                                        type="text"
-                                        value={changedPaymentStatus}
-                                        onChange={(e) => setChangedPaymentStatus(e.target.value)}
-                                    />
-                                ) : (
-                                    o.payment_status
-                                )}</td>
+                        <td>{orderId === +o.id 
+                            ? (
+                                <input
+                                    type="text"
+                                    value={changedPaymentStatus}
+                                    onChange={(e) => setChangedPaymentStatus(e.target.value)}
+                                />
+                            ) 
+                            : (
+                                o.payment_status
+                            )}</td>
                         <td>{o.payment_id}</td>
-                        <td>{orderId === +o.id ? (
-                                    <input
-                                        type="text"
-                                        value={changedOrderStatus}
-                                        onChange={(e) => setChangedOrderStatus(e.target.value)}
-                                    />
-                                ) : (
-                                    o.order_status
-                                )}</td>
-                        <td>{orderId === +o.id ? (
-                                    <a href="#" onClick={() => handleSaveOrder(+o.id)}>SAVE</a>
-                                ) : (
-                                    <a href="#" onClick={() => handleUpdateOrder(o)}>UPDATE</a>
-                                )}  <a href="#" className="delete-link" onClick={()=>handleDelete(+o.id)}> DELETE</a></td>
+                        <td>{orderId === +o.id 
+                            ? (
+                                <input
+                                    type="text"
+                                    value={changedOrderStatus}
+                                    onChange={(e) => setChangedOrderStatus(e.target.value)}
+                                />
+                            ) 
+                            : (
+                                o.order_status
+                            )}</td>
+                        <td>{orderId === +o.id 
+                            ? (
+                                <a href="#" onClick={() => handleSaveOrder(+o.id)}>SAVE</a>
+                            ) 
+                            : (
+                                <a href="#" onClick={() => handleUpdateOrder(o)}>UPDATE</a>
+                            )}  
+                            <a href="#" className="delete-link" onClick={()=>handleDelete(+o.id)}> DELETE</a></td>
                     </tr>
                 ))
             }
