@@ -91,3 +91,12 @@ a {
 
 
 /* products pages */
+
+/* order pages */
+.title-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+.small-title {
+    text-align: left;
+}

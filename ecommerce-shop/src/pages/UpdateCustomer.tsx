@@ -20,8 +20,6 @@ export const UpdateCustomer = () => {
             if (!customer) return customer
             return {...customer,[e.target.id]: e.target.value};
         });
-        // if(!customer) return
-        // setCustomer(customer => ({...customer, [e.target.id]: e.target.value}))
     }
 
     const handleUpdateCustomer = async (e:FormEvent<HTMLFormElement>) => {

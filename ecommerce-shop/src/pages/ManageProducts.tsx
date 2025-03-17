@@ -18,7 +18,7 @@ export const ManageProducts = () => {
     }
     return (
         <>
-<h2>Manage Products</h2>
+        <h2>Manage Products</h2>
         <Link to="/admin/create-product">
                 <button className="create-btn">Create Product</button>
         </Link>
@@ -49,6 +49,7 @@ export const ManageProducts = () => {
                 ))
             }
             </tbody>
-        </table>        </>
+    </table>        
+    </>
     )
 }
