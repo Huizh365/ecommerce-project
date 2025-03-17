@@ -19,6 +19,8 @@ export const Products = () => {
         <>
         <div className="filter-wrapper">Filters</div>
         <div className="products">
+        {isLoading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
         {
             products.map((p) =>(
                 <div 
