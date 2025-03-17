@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react"
 import { useNavigate } from 'react-router'
 import { ProductCreate } from "../types/Product"
-import { createProduct } from "../services/productService"
+import { useProducts } from "../hooks/useProducts"
 
 
 export const CreateProduct = () => {
@@ -14,6 +14,7 @@ export const CreateProduct = () => {
         image: ""
     })
     const navigate = useNavigate()
+    const {isLoading, error, createProductHandler} = useProducts()
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         setProduct(product => ({...product, [e.target.id]: e.target.value}))
@@ -21,14 +22,16 @@ export const CreateProduct = () => {
     
     const handleCreateProduct = async (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if(!product) return
-        await createProduct(product) 
+        // if(!product) return
+        await createProductHandler(product) 
         navigate("/admin/products")
         }
 
         return (
         <>
         <h2>Create Customer</h2>
+        {isLoading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
         <form onSubmit={handleCreateProduct}>
             <label htmlFor="name">Name
             <input id="name" type="text" value={product.name} onChange={handleChange}></input>

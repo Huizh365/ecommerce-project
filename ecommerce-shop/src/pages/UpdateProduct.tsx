@@ -1,18 +1,19 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { IProduct } from "../types/Product"
 import { useNavigate, useParams } from 'react-router'
-import { getProductById, updateProduct } from "../services/productService"
 import "../styles/customers.css"
+import { useProducts } from "../hooks/useProducts"
 
 
 export const UpdateProduct = () => {
     const [product, setProduct] = useState<IProduct | null> (null)
     const navigate = useNavigate()
     const params = useParams()
+    const { isLoading, error, fetchProductByIdHandler,updateProductHandler } = useProducts()
 
     useEffect(() => {
         if(!params.id) return
-        getProductById(+params.id).then((data) => setProduct(data))
+        fetchProductByIdHandler(+params.id).then((data) => setProduct(data))
     },[])
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +26,7 @@ export const UpdateProduct = () => {
     const handleUpdateProduct = async (e:FormEvent<HTMLFormElement>) => {
             e.preventDefault()
             if(!product) return
-            await updateProduct(product.id, product)
+            await updateProductHandler(product.id, product)
             navigate("/admin/products")
         }
 
@@ -33,6 +34,8 @@ export const UpdateProduct = () => {
     return (
         <>
         <h2>Update Customer</h2>
+        {isLoading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
         <form onSubmit={handleUpdateProduct}>
             <label htmlFor="name">Name
             <input id="name" type="text" value={product?.name ?? ""} onChange={handleChange}></input>
