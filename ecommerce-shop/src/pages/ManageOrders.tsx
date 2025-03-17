@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { IOrder, OrderUpdate } from "../types/Order"
 import { deleteOrder, getOrders, updateOrder } from "../services/orderService"
+import { Link } from "react-router"
 
 
 export const ManageOrders = () => {
@@ -8,6 +9,7 @@ export const ManageOrders = () => {
     const [orderId, setOrderId] = useState<number | null>(null)
     const [changedPaymentStatus, setChangedPaymentStatus] = useState<string>('')
     const [changedOrderStatus, setChangedOrderStatus] = useState<string>('')
+
 
     useEffect (() => {
         getOrders().then((data) => setOrders(data))
@@ -42,11 +44,10 @@ export const ManageOrders = () => {
                 }
                 return o;
             })
-            console.log('Updated Orders in state:', updatedOrders)
             setOrders(updatedOrders);
             setOrderId(null);
         } catch (error) {
-            console.error('Failed to update order:', error)
+            console.error("Failed to update order:", error)
         }
     }
 
@@ -72,7 +73,7 @@ export const ManageOrders = () => {
             {
                 orders.map((o) =>(
                     <tr className="customer-item" key={o.id}>
-                        <td>{o.id}</td>
+                        <td><Link to={`${o.id}`}>{o.id}</Link></td>
                         <td>{o.customer_firstname} {o.customer_lastname}</td>
                         <td>{o.customer_email}</td>
                         <td>{o.total_price}</td>
