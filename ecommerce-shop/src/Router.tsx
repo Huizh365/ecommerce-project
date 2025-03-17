@@ -11,7 +11,7 @@ import { UpdateProduct } from "./pages/UpdateProduct";
 import { ManageCustomers } from "./pages/ManageCustomers";
 import { CreateCustomer } from "./pages/CreateCustomer";
 import { UpdateCustomer } from "./pages/UpdateCustomer";
-import { Admin } from "./pages/Admin";
+import { AdminLayout } from "./pages/AdminLayout";
 import { Layout } from "./pages/Layout";
 
 export const router = createBrowserRouter([
@@ -31,47 +31,47 @@ export const router = createBrowserRouter([
             {
                 path:"/products/:id",
                 element: < ProductDetails />
+            }
+            
+        ]
+    },
+    {
+        path:"/admin",
+        element: < AdminLayout />,
+        errorElement: < NotFound />,
+        children: [
+            {
+                path:"orders",
+                element: < ManageOrders />
             },
             {
-                path:"/admin",
-                element: < Admin />,
-                errorElement: < NotFound />,
-                children: [
-                    {
-                        path:"orders",
-                        element: < ManageOrders />
-                    },
-                    {
-                        path:"orders/:id",
-                        element: < OrderDetails />
-                    },
-                    {
-                        path:"products",
-                        element: < ManageProducts />,
-                    },
-                    {
-                        path:"create-product",
-                        element: < CreateProduct />
-                    },
-                    {
-                        path:"products/:id",
-                        element: < UpdateProduct />
-                    },
+                path:"orders/:id",
+                element: < OrderDetails />
+            },
+            {
+                path:"products",
+                element: < ManageProducts />,
+            },
+            {
+                path:"create-product",
+                element: < CreateProduct />
+            },
+            {
+                path:"products/:id",
+                element: < UpdateProduct />
+            },
 
-                    {
-                        path:"customers",
-                        element: < ManageCustomers />,
-                    },
-                    {
-                        path:"create-customer",
-                        element: < CreateCustomer />
-                    },
-                    {
-                        path:"customers/:id",
-                        element: < UpdateCustomer />
-                    }
-                    
-                ]
+            {
+                path:"customers",
+                element: < ManageCustomers />,
+            },
+            {
+                path:"create-customer",
+                element: < CreateCustomer />
+            },
+            {
+                path:"customers/:id",
+                element: < UpdateCustomer />
             }
             
         ]

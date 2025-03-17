@@ -62,7 +62,7 @@ export const OrderDetails = () => {
 
     return (
         <>
-        <h2>Manage Orders</h2>
+        <h2>Manage Order Details</h2>
         <div className='title-wrapper'>
         <h4>Order Information</h4>
         <h4><Link to="/admin/orders">Go Back</Link></h4>
@@ -90,7 +90,7 @@ export const OrderDetails = () => {
             </tbody>
         </table>
 
-        <h4>Customer Information</h4>
+        <h4 className='small-title'>Customer Information</h4>
         <table id="customer-info">
             <thead>
             <tr>
@@ -114,7 +114,7 @@ export const OrderDetails = () => {
             </tbody>
         </table>
 
-        <h4>Order Items</h4>
+        <h4 className='small-title'>Order Items</h4>
         <table id="order-items">
             <thead>
             <tr>
