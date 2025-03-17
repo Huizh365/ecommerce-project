@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useProducts } from "../hooks/useProducts"
 import { useNavigate, useParams, Link } from 'react-router'
 import { IProduct } from "../types/Product"
+import "../styles/shop.css"
 
 
 export const ProductDetails = () => {
@@ -17,14 +18,14 @@ export const ProductDetails = () => {
 
     return (
         <>
-        <Link to="/products">Home</Link>
+        <Link to="/products" id="home-link">Home</Link>
         <div className="product-detail">
             <img src={product?.image} alt={product?.name}></img>
             <div className="info-wrapper">
-                <h3>{product?.name}</h3>
+                <h2>{product?.name}</h2>
                 <h4>{product?.price} kr</h4>
                 <p>{product?.description}</p>
-                {product?.stock ? <p>In Stock</p> : <p>Out of Stock</p>}
+                {product?.stock ? <p className="in-stock">In Stock</p> : <p className="out-stock">Out of Stock</p>}
                 <button className="add-btn">Add to Cart</button>
             </div>
         </div>
