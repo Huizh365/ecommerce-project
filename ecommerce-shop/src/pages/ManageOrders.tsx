@@ -1,60 +1,33 @@
-import { useEffect, useState } from "react"
-import { IOrder, OrderUpdate } from "../types/Order"
-import { deleteOrder, getOrders, updateOrder } from "../services/orderService"
+import { useEffect } from "react"
 import { Link } from "react-router"
-
+import { useOrders } from "../hooks/useOrders"
 
 export const ManageOrders = () => {
-    const [orders, setOrders] = useState<IOrder[]>([])
-    const [orderId, setOrderId] = useState<number | null>(null)
-    const [changedPaymentStatus, setChangedPaymentStatus] = useState<string>('')
-    const [changedOrderStatus, setChangedOrderStatus] = useState<string>('')
 
+    const { 
+        orders,
+        orderId,
+        changedPaymentStatus,
+        changedOrderStatus,
+        handleFetchorders,
+        setChangedPaymentStatus,
+        setChangedOrderStatus,
+        handleDelete,
+        handleUpdateOrder,
+        handleSaveOrder,
+        isLoading,
+        error 
+    } = useOrders()
 
     useEffect (() => {
-        getOrders().then((data) => setOrders(data))
+        handleFetchorders()
     },[])
-
-    const handleDelete = async (id:number) => {
-            await deleteOrder(id)
-            const newOrders = orders.filter(o => +o.id !== id)
-            setOrders(newOrders)
-    }
-    
-    const handleUpdateOrder = (order:IOrder) => {
-        setOrderId(+order.id)
-        setChangedPaymentStatus(order.payment_status)
-        setChangedOrderStatus(order.order_status)
-    }
-
-    const handleSaveOrder = async (id: number) => {
-        const changedOrder: OrderUpdate = {
-            payment_status: changedPaymentStatus,
-            order_status: changedOrderStatus
-        }
-        try{
-            await updateOrder(id, changedOrder)
-            const updatedOrders = orders.map(o => {
-                if (+o.id === id) {
-                    return {
-                        ...o, 
-                        payment_status: changedPaymentStatus, 
-                        order_status:changedOrderStatus
-                    }
-                }
-                return o;
-            })
-            setOrders(updatedOrders);
-            setOrderId(null);
-        } catch (error) {
-            console.error("Failed to update order:", error)
-        }
-    }
-
 
     return (
         <>
         <h2>Manage Orders</h2>
+        {isLoading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
         <table id="order-list">
             <thead>
             <tr>
