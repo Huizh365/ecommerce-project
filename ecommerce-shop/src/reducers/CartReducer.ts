@@ -2,7 +2,7 @@ import { CartItem } from "../models/CartItem"
 
 export interface ICartAction {
     type: ICartActionType
-    payload: CartItem
+    payload: CartItem | any
 }
 
 export enum ICartActionType {
