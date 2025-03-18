@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { IProduct, ProductCreate } from "../types/Product";
 import { createProduct, deleteProduct, getProductById, getProducts, updateProduct } from "../services/productService";
+import { useNavigate, useParams } from 'react-router'
 
 export const useProducts = () => {
     const [products, setProducts] = useState<IProduct[]>([])
     const [error, setError] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false); 
+    const navigate = useNavigate()
+    const params = useParams()
 
     const fetchProductsHandler = async () => {
         setIsLoading(true)
@@ -74,6 +77,8 @@ export const useProducts = () => {
     }
 
     return {
+        navigate,
+        params,
         products,
         isLoading,
         error,

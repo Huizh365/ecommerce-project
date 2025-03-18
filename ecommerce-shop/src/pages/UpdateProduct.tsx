@@ -1,15 +1,12 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { IProduct } from "../types/Product"
-import { useNavigate, useParams } from 'react-router'
-import "../styles/customers.css"
+import "../styles/admin.css"
 import { useProducts } from "../hooks/useProducts"
 
 
 export const UpdateProduct = () => {
     const [product, setProduct] = useState<IProduct | null> (null)
-    const navigate = useNavigate()
-    const params = useParams()
-    const { isLoading, error, fetchProductByIdHandler,updateProductHandler } = useProducts()
+    const { navigate, params, isLoading, error, fetchProductByIdHandler,updateProductHandler } = useProducts()
 
     useEffect(() => {
         if(!params.id) return

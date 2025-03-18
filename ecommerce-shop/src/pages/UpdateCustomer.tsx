@@ -1,18 +1,15 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { ICustomer } from "../types/Customer"
-import { useNavigate, useParams } from 'react-router'
-import { getCustomerById, updateCustomer } from "../services/customerService"
-import "../styles/customers.css"
+import "../styles/admin.css"
+import { useCustomers } from "../hooks/useCustomers"
 
 export const UpdateCustomer = () => {
     const [customer, setCustomer] = useState<ICustomer | null>(null)
-    const navigate = useNavigate()
-    const params = useParams()
+    const {navigate, params, fetchCustomerByIdHandler, updateCustomerHandler, isLoading, error} = useCustomers()
 
     useEffect(()=>{
         if(!params.id) return
-        getCustomerById(+params.id).then((data) => setCustomer(data))
-
+        fetchCustomerByIdHandler(+params.id).then((data) => setCustomer(data))
     },[])
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
@@ -25,14 +22,15 @@ export const UpdateCustomer = () => {
     const handleUpdateCustomer = async (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if(!customer) return
-        await updateCustomer(customer.id, customer)
-
+        await updateCustomerHandler(customer.id, customer)
         navigate("/admin/customers")
     }
 
     return (
         <>
         <h2>Update Customer</h2>
+        {isLoading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
         <form onSubmit={handleUpdateCustomer}>
             <label htmlFor="firstname">Firstname
             <input id="firstname" type="text" value={customer?.firstname ?? ""} onChange={handleChange}></input>
