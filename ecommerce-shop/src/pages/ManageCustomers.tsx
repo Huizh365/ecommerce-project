@@ -1,21 +1,14 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router"
-import { ICustomer } from "../types/Customer"
-import { deleteCustomer, getCustomers } from "../services/customerService"
 import "../styles/customers.css"
+import { useCustomers } from "../hooks/useCustomers"
 
 export const ManageCustomers = () => {
-    const [customers, setCustomers] = useState<ICustomer[]>([])
+    const {customers, error, isLoading, fetchCustomersHandler, deleteCustomerHandler} = useCustomers()
     
     useEffect(()=> {
-        getCustomers().then((data)=>setCustomers(data))
+        fetchCustomersHandler()
     },[])
-
-    const handleDelete = async (id:number) => {
-        await deleteCustomer(id)
-        const newCustomers = customers.filter(c => c.id !== id)
-        setCustomers(newCustomers)
-    }
 
     return (
         <>
@@ -23,6 +16,8 @@ export const ManageCustomers = () => {
         <Link to="/admin/create-customer">
                 <button className="create-btn">Create Customer</button>
         </Link>
+        {isLoading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
         <table id="customer-list">
             <thead>
             <tr>
@@ -51,7 +46,7 @@ export const ManageCustomers = () => {
                         <td>{c.city}</td>
                         <td>{c.country}</td>
                         <td>{c.postal_code}</td>
-                        <td><Link to={`${c.id}`}>UPDATE </Link> <a href="#" className="delete-link" onClick={()=>handleDelete(c.id)}> DELETE</a></td>
+                        <td><Link to={`${c.id}`}>UPDATE </Link> <a href="#" className="delete-link" onClick={()=>deleteCustomerHandler(c.id)}> DELETE</a></td>
                     </tr>
                 ))
             }

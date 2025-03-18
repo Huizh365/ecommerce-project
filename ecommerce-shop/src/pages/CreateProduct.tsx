@@ -22,7 +22,6 @@ export const CreateProduct = () => {
     
     const handleCreateProduct = async (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        // if(!product) return
         await createProductHandler(product) 
         navigate("/admin/products")
         }

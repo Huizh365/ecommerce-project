@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useState } from "react"
 import { useNavigate } from 'react-router'
 import { CustomerCreate } from "../types/Customer"
 import { createCustomer } from "../services/customerService"
+import { useCustomers } from "../hooks/useCustomers"
 
 export const CreateCustomer = () => {
     const [customer, setCustomer] = useState<CustomerCreate>({
@@ -16,6 +17,7 @@ export const CreateCustomer = () => {
         country: ""
     })
     const navigate = useNavigate()
+    const {createCustomerHandler, isLoading, error} = useCustomers()
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         setCustomer(customer => ({...customer, [e.target.id]: e.target.value}))
@@ -24,14 +26,15 @@ export const CreateCustomer = () => {
     const handleCreateCustomer = async (e:FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if(!customer) return
-        await createCustomer(customer)
-
+        await createCustomerHandler(customer)
         navigate("/admin/customers")
     }
 
         return (
         <>
         <h2>Create Customer</h2>
+        {isLoading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
         <form onSubmit={handleCreateCustomer}>
             <label htmlFor="firstname">Firstname
             <input id="firstname" type="text" value={customer.firstname} onChange={handleChange}></input>
