@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { useProducts } from "../hooks/useProducts"
-import { useParams, Link } from 'react-router'
 import { IProduct } from "../types/Product"
 import "../styles/shop.css"
 import { useCart } from "../hooks/useCart"
@@ -9,17 +8,14 @@ import { CartItem } from "../models/CartItem"
 
 
 export const ProductDetails = () => {
-    const {fetchProductByIdHandler, isLoading, error} = useProducts()
-    const params = useParams()
+    const {fetchProductByIdHandler, isLoading, error, params} = useProducts()
     const [product, setProduct] = useState<IProduct | null>(null)
-
-    const {cart, dispatch} = useCart()
+    const {dispatch} = useCart()
 
     useEffect(()=>{
         if(!params.id) return
         fetchProductByIdHandler(+params.id).then((data) => setProduct(data))
     },[])
-
 
     const addToCart = (product: IProduct, quantity: number) => {
         dispatch({
@@ -30,7 +26,8 @@ export const ProductDetails = () => {
 
     return (
         <>
-        <Link to="/products" id="home-link">Home</Link>
+        {isLoading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
         <div className="product-detail">
             <img src={product?.image} alt={product?.name}></img>
             <div className="info-wrapper">

@@ -39,7 +39,7 @@ export const ManageProducts = () => {
                             <td>{p.price}</td>
                             <td>{p.stock}</td>
                             <td>{p.category}</td>
-                            <td>{p.created_at}</td>
+                            <td>{p.created_at.slice(0, 10)}</td>
                             <td><Link to={`${p.id}`}>UPDATE </Link> <a href="#" className="delete-link" onClick={()=>deleteProductHandler(p.id)}> DELETE</a></td>
                         </tr>
                     ))

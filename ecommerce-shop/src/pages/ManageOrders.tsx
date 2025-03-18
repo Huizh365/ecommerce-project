@@ -51,7 +51,7 @@ export const ManageOrders = () => {
                         <td>{o.customer_firstname} {o.customer_lastname}</td>
                         <td>{o.customer_email}</td>
                         <td>{o.total_price}</td>
-                        <td>{o.created_at}</td>
+                        <td>{o.created_at.slice(0, 10)}</td>
                         <td>{orderId === +o.id 
                             ? (
                                 <input

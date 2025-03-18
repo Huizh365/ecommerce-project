@@ -1,12 +1,15 @@
 import { useEffect } from "react"
-import { useNavigate } from 'react-router'
 import { useProducts } from "../hooks/useProducts"
 import "../styles/shop.css"
+import { useCart } from "../hooks/useCart"
+import { CartItem } from "../models/CartItem"
+import { ICartActionType } from "../reducers/CartReducer"
+import { IProduct } from "../types/Product"
 
 export const Products = () => {
-    const {products, fetchProductsHandler, isLoading, error} = useProducts()
-    const navigate = useNavigate()
-
+    const {products, fetchProductsHandler, isLoading, error, navigate} = useProducts()
+    const {dispatch} = useCart()
+    
     useEffect (() => {
         fetchProductsHandler()
     },[])
@@ -14,6 +17,12 @@ export const Products = () => {
     const handleClick = (id:number) => {
         navigate(`/products/${id}`)
     }
+    const addToCart = (product: IProduct, quantity: number) => {
+            dispatch({
+                type: ICartActionType.ADD_ITEM,
+                payload: new CartItem(product, quantity)
+            })
+        }
 
     return (
         <>
@@ -26,11 +35,13 @@ export const Products = () => {
                 <div 
                     className="product-item" 
                     key={p.id}
-                    onClick={() => handleClick(p.id)}
                 >
-                    <img src={p.image} alt={p.name}></img>
+                    <img src={p.image} alt={p.name} onClick={() => handleClick(p.id)}></img>
                     <p>{p.name}</p>
-                    <p>Price: {p.price} kr</p>
+                    <div className="card-last-line">
+                        <p>Price: {p.price} kr</p>
+                        <button className="small-add-btn" onClick={()=> addToCart(p, 1)}>+</button>
+                    </div>
                 </div>
             ))
         }

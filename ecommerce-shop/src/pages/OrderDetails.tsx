@@ -47,7 +47,7 @@ export const OrderDetails = () => {
                 <tr>
                     <td>{order?.id}</td>
                     <td>{order?.total_price}</td>
-                    <td>{order?.created_at}</td>
+                    <td>{order?.created_at.slice(0, 10)}</td>
                     <td>{order?.payment_status}</td>
                     <td>{order?.payment_id}</td>
                     <td>{order?.order_status}</td>
