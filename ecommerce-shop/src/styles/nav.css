@@ -13,31 +13,31 @@
 }
 
 .nav-logo {
-    height: 80px; /* 根据需要调整 Logo 大小 */
+    height: 80px; 
     width: auto;
 }
 
 .nav-links {
     display: flex;
-    gap: 1.5rem; /* 调整链接之间的间距 */
+    gap: 1.5rem;
 }
 
 .navbar-link {
     text-decoration: none;
-    color: #333; /* 链接颜色 */
+    color: #333; 
     font-size: 1rem;
     font-weight: 500;
 }
 
 .navbar-link:hover {
-    color: #007bff; /* 鼠标悬停时的颜色 */
+    color: #007bff; 
 }
 
 .nav-right {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 1rem; /* 调整图标之间的间距 */
+    gap: 1rem; 
 }
 
 #cart-number {
@@ -45,8 +45,22 @@
     align-items: center;
 }
 .navbar-icon {
-    height: 24px; /* 根据需要调整图标大小 */
+    height: 24px; 
     width: auto;
-    cursor: pointer; /* 鼠标悬停时显示为手型 */
+    cursor: pointer; 
 }
+
+#cart-enter {
+    position: relative;
+}
+#cart-count {
+    font-size: 20px;
+    position:absolute;
+    top: -12px;
+    right: -12px;
+    color: #B9463F;
+    
+}
+
+
   
