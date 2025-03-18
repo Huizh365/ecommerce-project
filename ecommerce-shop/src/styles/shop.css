@@ -33,6 +33,25 @@
     transition: transform 0.3s ease;
 }
 
+.card-last-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.small-add-btn {
+    width: 15%;
+    height: fit-content;
+    margin-right: 10px;
+    font-size: 25px;
+    background-color: white;
+    color:#5EAAA2;
+}
+
+.small-add-btn:hover {
+    cursor: pointer;
+}
+
 
 
 /* product details */
