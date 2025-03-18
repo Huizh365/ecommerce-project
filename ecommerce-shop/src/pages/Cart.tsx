@@ -2,6 +2,7 @@ import { useCart } from "../hooks/useCart"
 import { CartItem } from "../models/CartItem"
 import { ICartActionType } from "../reducers/CartReducer"
 import { IProduct } from "../types/Product"
+import "../styles/cart.css"
 
 export const Cart = () => {
 
@@ -37,10 +38,11 @@ export const Cart = () => {
         <>
         <div className="container">
             <h3>My Cart</h3>
+            <button className="clear-btn" onClick={clearCart}>Clear Cart</button>
             <div className="cart-list">
                 {cart.map((item) => (
                     <div className="item-wrapper" key={item.product.id}>
-                        <img src={item.product.image}/>
+                        <img src={item.product.image} className="item-img"/>
                         <div className="item-info">
                             <p className="item-name">{item.product.name}</p>
                             <p className="item-price">{item.product.price} kr</p>
@@ -54,15 +56,17 @@ export const Cart = () => {
                                 onClick={() => changeQuantity(item.product, 1)}
                             >+</button>
                         </div>
+            
                         <button className="remove-item-btn" 
                             onClick={() => {removeItem(item)}}
                         >Remove</button>
                     </div>
                 ))}
             </div>
+            <div className="check-out-wrapper">
             <h4 className="total-price">Total Price: {totalPrice} kr</h4>
-            <button className="clear-btn" onClick={clearCart}>Clear Cart</button>
             <button className="checkout-btn">Checkout</button>
+            </div>
         </div>
         </>
     )

@@ -49,4 +49,18 @@
     width: auto;
     cursor: pointer; 
 }
+
+#cart-enter {
+    position: relative;
+}
+#cart-count {
+    font-size: 20px;
+    position:absolute;
+    top: -12px;
+    right: -12px;
+    color: #B9463F;
+    
+}
+
+
   
