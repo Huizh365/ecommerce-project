@@ -1,0 +1,52 @@
+.navbar {
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
+.nav-logo {
+    height: 80px; /* 根据需要调整 Logo 大小 */
+    width: auto;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1.5rem; /* 调整链接之间的间距 */
+}
+
+.navbar-link {
+    text-decoration: none;
+    color: #333; /* 链接颜色 */
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.navbar-link:hover {
+    color: #007bff; /* 鼠标悬停时的颜色 */
+}
+
+.nav-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem; /* 调整图标之间的间距 */
+}
+
+#cart-number {
+    display: flex;
+    align-items: center;
+}
+.navbar-icon {
+    height: 24px; /* 根据需要调整图标大小 */
+    width: auto;
+    cursor: pointer; /* 鼠标悬停时显示为手型 */
+}
+  
