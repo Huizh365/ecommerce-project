@@ -1,5 +1,4 @@
 import { ChangeEvent, FormEvent, useState } from "react"
-import { useNavigate } from 'react-router'
 import { CustomerCreate } from "../types/Customer"
 import { useCustomers } from "../hooks/useCustomers"
 import "../styles/admin.css"
@@ -17,8 +16,8 @@ export const CreateCustomer = () => {
         city: "",
         country: ""
     })
-    const navigate = useNavigate()
-    const {createCustomerHandler, isLoading, error} = useCustomers()
+
+    const {navigate, createCustomerHandler, isLoading, error} = useCustomers()
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         setCustomer(customer => ({...customer, [e.target.id]: e.target.value}))

@@ -1,5 +1,4 @@
 import { ChangeEvent, FormEvent, useState } from "react"
-import { useNavigate } from 'react-router'
 import { ProductCreate } from "../types/Product"
 import { useProducts } from "../hooks/useProducts"
 import "../styles/admin.css"
@@ -13,8 +12,7 @@ export const CreateProduct = () => {
         category: "",
         image: ""
     })
-    const navigate = useNavigate()
-    const {isLoading, error, createProductHandler} = useProducts()
+    const {navigate, isLoading, error, createProductHandler} = useProducts()
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {
         setProduct(product => ({...product, [e.target.id]: e.target.value}))

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { Link } from "react-router"
 import "../styles/admin.css"
 import { useCustomers } from "../hooks/useCustomers"
@@ -14,7 +14,7 @@ export const ManageCustomers = () => {
         <>
         <h2>Manage Customers</h2>
         <Link to="/admin/create-customer">
-                <button className="create-btn">Create Customer</button>
+            <button className="create-btn">Create Customer</button>
         </Link>
         {isLoading && <p>Loading...</p>}
         {error && <p>{error}</p>}

@@ -1,19 +1,15 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { ICustomer } from "../types/Customer"
-import { useNavigate, useParams } from 'react-router'
 import "../styles/admin.css"
 import { useCustomers } from "../hooks/useCustomers"
 
 export const UpdateCustomer = () => {
     const [customer, setCustomer] = useState<ICustomer | null>(null)
-    const navigate = useNavigate()
-    const params = useParams()
-    const {fetchCustomerByIdHandler, updateCustomerHandler, isLoading, error} = useCustomers()
+    const {navigate, params, fetchCustomerByIdHandler, updateCustomerHandler, isLoading, error} = useCustomers()
 
     useEffect(()=>{
         if(!params.id) return
         fetchCustomerByIdHandler(+params.id).then((data) => setCustomer(data))
-
     },[])
 
     const handleChange = (e:ChangeEvent<HTMLInputElement>) => {

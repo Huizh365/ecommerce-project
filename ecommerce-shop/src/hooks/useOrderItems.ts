@@ -2,13 +2,15 @@ import { useState } from "react"
 import { deleteOrderItem, updateOrderItem } from "../services/orderItemService"
 import { getOrderById } from "../services/orderService"
 import { IOrder, IOrderItem, OrderItemUpdate } from "../types/Order"
+import { useParams } from 'react-router'
 
 export const useOrderItems = () => {
     const [order, setOrder] = useState<IOrder | null>(null)
     const [orderItemId, setOrderItemId] = useState<number | null>(null)
     const [changedQuantity, setChangedQuantity] = useState<number>(0)
     const [error, setError] = useState<string>("");
-    const [isLoading, setIsLoading] = useState<boolean>(false); 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const params = useParams() 
     
     const handleFetchOrderById = async(id:number) => {
         setIsLoading(true)
@@ -76,6 +78,7 @@ export const useOrderItems = () => {
         handleUpdateQuantity,
         handleSaveQuantity,
         error,
-        isLoading
+        isLoading,
+        params
     }
 }

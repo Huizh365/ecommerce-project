@@ -4,7 +4,6 @@ import { useProducts } from "../hooks/useProducts"
 import "../styles/admin.css"
 
 
-
 export const ManageProducts = () => {
     const { products, isLoading, error, fetchProductsHandler, deleteProductHandler} = useProducts()
     useEffect (()=> {

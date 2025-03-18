@@ -1,10 +1,9 @@
 import { useEffect } from 'react'
-import { Link, useParams } from 'react-router'
+import { Link } from 'react-router'
 import "../styles/admin.css"
 import { useOrderItems } from '../hooks/useOrderItems'
 
 export const OrderDetails = () => {
-    const params = useParams()
     const {
         order,
         orderItemId,
@@ -15,7 +14,8 @@ export const OrderDetails = () => {
         handleUpdateQuantity,
         handleSaveQuantity,
         error,
-        isLoading
+        isLoading,
+        params
     } = useOrderItems()
 
     useEffect (() => {

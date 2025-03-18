@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useNavigate, useParams } from 'react-router'
 import { CustomerCreate, ICustomer } from "../types/Customer"
 import { createCustomer, deleteCustomer, getCustomerById, getCustomers, updateCustomer } from "../services/customerService";
 
@@ -6,6 +7,8 @@ export const useCustomers = () => {
     const [customers, setCustomers] = useState<ICustomer[]>([])
     const [error, setError] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false); 
+    const navigate = useNavigate()
+    const params = useParams()
 
     const fetchCustomersHandler = async () => {
             setIsLoading(true)
@@ -75,6 +78,8 @@ export const useCustomers = () => {
 
     
         return {
+            navigate,
+            params,
             customers,
             isLoading,
             error,
