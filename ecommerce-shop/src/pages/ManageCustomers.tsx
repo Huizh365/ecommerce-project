@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router"
-import "../styles/customers.css"
+import "../styles/admin.css"
 import { useCustomers } from "../hooks/useCustomers"
 
 export const ManageCustomers = () => {

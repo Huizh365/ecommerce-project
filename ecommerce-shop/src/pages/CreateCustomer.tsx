@@ -1,8 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from "react"
 import { useNavigate } from 'react-router'
 import { CustomerCreate } from "../types/Customer"
-import { createCustomer } from "../services/customerService"
 import { useCustomers } from "../hooks/useCustomers"
+import "../styles/admin.css"
+
 
 export const CreateCustomer = () => {
     const [customer, setCustomer] = useState<CustomerCreate>({

@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { ICustomer } from "../types/Customer"
 import { useNavigate, useParams } from 'react-router'
-import "../styles/customers.css"
+import "../styles/admin.css"
 import { useCustomers } from "../hooks/useCustomers"
 
 export const UpdateCustomer = () => {

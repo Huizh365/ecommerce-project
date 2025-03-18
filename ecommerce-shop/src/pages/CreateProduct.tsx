@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useState } from "react"
 import { useNavigate } from 'react-router'
 import { ProductCreate } from "../types/Product"
 import { useProducts } from "../hooks/useProducts"
-
+import "../styles/admin.css"
 
 export const CreateProduct = () => {
     const [product, setProduct] = useState<ProductCreate>({

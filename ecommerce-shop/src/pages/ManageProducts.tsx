@@ -1,6 +1,8 @@
 import { useEffect} from "react"
 import { Link } from "react-router"
 import { useProducts } from "../hooks/useProducts"
+import "../styles/admin.css"
+
 
 
 export const ManageProducts = () => {

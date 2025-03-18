@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { IProduct } from "../types/Product"
 import { useNavigate, useParams } from 'react-router'
-import "../styles/customers.css"
+import "../styles/admin.css"
 import { useProducts } from "../hooks/useProducts"
 
 

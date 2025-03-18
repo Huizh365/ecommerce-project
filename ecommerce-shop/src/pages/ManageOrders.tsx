@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { Link } from "react-router"
 import { useOrders } from "../hooks/useOrders"
+import "../styles/admin.css"
 
 export const ManageOrders = () => {
 
