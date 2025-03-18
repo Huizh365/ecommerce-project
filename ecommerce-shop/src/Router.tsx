@@ -13,6 +13,7 @@ import { CreateCustomer } from "./pages/CreateCustomer";
 import { UpdateCustomer } from "./pages/UpdateCustomer";
 import { AdminLayout } from "./pages/AdminLayout";
 import { Layout } from "./pages/Layout";
+import { Cart } from "./pages/Cart";
 
 export const router = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
             {
                 path:"/products/:id",
                 element: < ProductDetails />
+            },
+            {
+                path:"/cart",
+                element: < Cart />
             }
             
         ]
