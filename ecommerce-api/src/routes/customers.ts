@@ -4,11 +4,13 @@ import {
   getCustomerById, 
   createCustomer, 
   updateCustomer, 
-  deleteCustomer } from "../controllers/customerController";
+  deleteCustomer, 
+  getCustomerByEmail} from "../controllers/customerController";
 const router = express.Router();
 
 router.get("/", getCustomers)
 router.get("/:id", getCustomerById)
+router.get("/email/:email", getCustomerByEmail)
 router.post("/", createCustomer)
 router.patch("/:id", updateCustomer)
 router.delete("/:id", deleteCustomer)
