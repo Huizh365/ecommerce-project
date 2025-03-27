@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { deleteOrder, getOrders, updateOrder } from "../services/orderService"
-import { IOrder, OrderUpdate } from "../types/Order"
+import { createOrder, deleteOrder, getOrders, updateOrder } from "../services/orderService"
+import { IOrder, OrderCreate, OrderUpdate } from "../types/Order"
 
 export const useOrders = () => {
     const [orders, setOrders] = useState<IOrder[]>([])
@@ -71,6 +71,19 @@ export const useOrders = () => {
         }
     }
 
+    const handleCreateOrder = async(payload: OrderCreate) => {
+        setIsLoading(true)
+        try {
+            const data = await createOrder(payload)
+            return data 
+        } catch (error) {
+            setError("Error creating order")
+            throw error
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
     return {
         orders,
         orderId,
@@ -82,6 +95,7 @@ export const useOrders = () => {
         handleDelete,
         handleUpdateOrder,
         handleSaveOrder,
+        handleCreateOrder,
         isLoading,
         error
     }
