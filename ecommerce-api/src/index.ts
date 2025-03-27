@@ -23,24 +23,14 @@ app.use('/order-items', orderItemRouter)
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 app.post('/stripe/create-checkout-session-embedded', async (req: Request, res: Response) => {
+  const { order_id, line_items } = req.body
   const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price_data: {
-          currency: 'SEK',
-          product_data: {
-            name: 'Rikards Tårta',
-            images: ['https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fusercontent.one%2Fwp%2Fwww.foodbylaven.se%2Fwp-content%2Fuploads%2F2020%2F10%2FDBB2DADD-264D-4003-9BD5-245331785548-1300x1300.jpg&f=1&nofb=1&ipt=260d639620b12c5ea5985f74668df5b56cde82438205e5a518014ebf502ea279&ipo=images']
-          },
-          unit_amount: 5 * 100,
-        },
-        quantity: 1,
-      },
-    ],
+    //get line_items (order_items info) and order_id from client req: Request
+    line_items,
     mode: 'payment',
     ui_mode: 'embedded',
     return_url: 'http://localhost:5173/order-confirmation?session_id={CHECKOUT_SESSION_ID}',
-    client_reference_id: '123'
+    client_reference_id: order_id
   });
 
   res.send({clientSecret: session.client_secret});
