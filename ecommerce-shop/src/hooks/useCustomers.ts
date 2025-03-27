@@ -1,7 +1,8 @@
 import { useState } from "react"
 import { useNavigate, useParams } from 'react-router'
 import { CustomerCreate, ICustomer } from "../types/Customer"
-import { createCustomer, deleteCustomer, getCustomerById, getCustomers, updateCustomer } from "../services/customerService";
+import { createCustomer, deleteCustomer, getCustomerByEmail, getCustomerById, getCustomers, updateCustomer } from "../services/customerService";
+import axios from "axios";
 
 export const useCustomers = () => {
     const [customers, setCustomers] = useState<ICustomer[]>([])
@@ -35,6 +36,30 @@ export const useCustomers = () => {
                 setIsLoading(false)
             }
         }
+    
+    const fetchCustomerByEmailHandler = async (email: string) => {
+        setIsLoading(true)
+        try {
+            const data = await getCustomerByEmail(email)
+            return data
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                  if (error.response.status === 404) {
+                    return error.response.data;
+                  }
+                  throw new Error(`Server error: ${error.response.status}`);
+                } else if (error.request) {
+                  throw new Error('No response from server');
+                } else {
+                  throw new Error('Request setup error');
+                }
+              }
+              throw error;
+        } finally {
+            setIsLoading(false)
+        }
+    }
     
     const deleteCustomerHandler = async (id:number) => {
             setIsLoading(true)
@@ -83,10 +108,12 @@ export const useCustomers = () => {
             customers,
             isLoading,
             error,
+            setError,
             fetchCustomersHandler,
             deleteCustomerHandler,
             fetchCustomerByIdHandler,
             updateCustomerHandler,
-            createCustomerHandler
+            createCustomerHandler,
+            fetchCustomerByEmailHandler
         }
 }

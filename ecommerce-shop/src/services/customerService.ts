@@ -10,6 +10,9 @@ export const getCustomerById = async (id:number):Promise<ICustomer> => {
     return await handleRequest<ICustomer>(axios.get(`${BASE_URL}customers/${id}`))
 }
 
+export const getCustomerByEmail = async (email:string):Promise<ICustomer> => {
+    return await handleRequest<ICustomer>(axios.get(`${BASE_URL}customers/email/${email}`))
+}
 
 export const deleteCustomer = async (id:number):Promise<void> => {
     return await handleRequest<void>(axios.delete(`${BASE_URL}customers/${id}`))
