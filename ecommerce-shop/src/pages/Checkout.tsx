@@ -1,17 +1,18 @@
-import React, { useState, useEffect, FormEvent } from 'react';
-// import {loadStripe} from '@stripe/stripe-js'
-// import {
-//   EmbeddedCheckoutProvider,
-//   EmbeddedCheckout
-// } from '@stripe/react-stripe-js'
+import { useState, useEffect, FormEvent, useCallback } from 'react';
+import {loadStripe} from '@stripe/stripe-js'
+import {
+  EmbeddedCheckoutProvider,
+  EmbeddedCheckout
+} from '@stripe/react-stripe-js'
 import { CustomerCreate } from '../types/Customer'
 import { useCustomers } from '../hooks/useCustomers'
 import { ChangeEvent } from 'react'
 import { OrderCreate, OrderItemCreate } from '../types/Order';
 import { useCart } from '../hooks/useCart';
 import { useOrders } from '../hooks/useOrders';
+import axios from 'axios';
 
-// const stripePromise = loadStripe('pk_test_51R4GtGLXMXfp1X0Luq3XRc5atnzyrApfXMCRVHgvPCDZtZxt13xgOkDTfqhYJKxZwtLMStsHzpttDCQJdkioGqjY00ZdahA5zH')
+const stripePromise = loadStripe('pk_test_51R4GtGLXMXfp1X0Luq3XRc5atnzyrApfXMCRVHgvPCDZtZxt13xgOkDTfqhYJKxZwtLMStsHzpttDCQJdkioGqjY00ZdahA5zH')
 
 export const Checkout = () => {
     const [customer, setCustomer] = useState<CustomerCreate>({
@@ -27,17 +28,12 @@ export const Checkout = () => {
       })
     
     const [customerID, setCustomerID] = useState<number | null>(null)
-    
-    const [order, setOrder] = useState<OrderCreate> ({
-      customer_id: 0,
-      payment_status: "unpaid",
-      payment_id: "",
-      order_status: "pending",
-      order_items: []
-    })
-
+    const [orderId, setOrderId] = useState<string>("")
+    const [showPayment, setShowPayment] = useState(false);
+    const [isCheckoutReady, setIsCheckoutReady] = useState(false); 
     const {cart} = useCart()
     const { handleCreateOrder } = useOrders()
+
     
     useEffect(() =>{
       const savedCustomerInfo = localStorage.getItem("customer")
@@ -75,49 +71,68 @@ export const Checkout = () => {
       }
     }
 
+    const fetchClientSecret = useCallback(async() => {
+      if(!orderId) {
+        throw new Error("Order ID not exist");
+      }
+      try{
+        const payload = {
+          order_id: orderId,
+          line_items: cart.map(item => ({
+            price_data: {
+              currency: "SEK",
+              product_data: {
+                name: item.product.name,
+                images: [item.product.image]
+              },
+              unit_amount: item.product.price * 100
+            },
+            quantity: item.quantity
+          }))
+        }
+        const response = await axios.post("http://localhost:3000/stripe/create-checkout-session-embedded", payload)
+        console.log(response)
+        return response.data.clientSecret
+      } catch (error) {
+        setError("Faild to initialize payment")
+      }  
+    }, [orderId, cart]);
+
     const handleOrder = async (e:FormEvent) => {
       e.preventDefault()
-      const customerId = await handleCustomer()
-      if (!customerId) {
-        throw new Error("Failed to get customer ID")
-      }
-      const orderItems: OrderItemCreate[] = cart.map(item =>({
-        product_id: item.product.id,
-        product_name: item.product.name,
-        quantity: item.quantity,
-        unit_price: item.product.price
-      })) 
-      const newOrder: OrderCreate = {
-        customer_id: customerId,
-        payment_status: "unpaid",
-        payment_id: "",
-        order_status: "pending",
-        order_items: orderItems
-      }
-      const createdOrder = await handleCreateOrder(newOrder)
-      console.log(createdOrder)
+      setError("")
+      try {
+        const customerId = await handleCustomer()
+        if (!customerId) {
+          throw new Error("Failed to get customer ID")
+        }
+        const orderItems: OrderItemCreate[] = cart.map(item =>({
+          product_id: item.product.id,
+          product_name: item.product.name,
+          quantity: item.quantity,
+          unit_price: item.product.price
+        })) 
+        const newOrder: OrderCreate = {
+          customer_id: customerId,
+          payment_status: "unpaid",
+          payment_id: "",
+          order_status: "pending",
+          order_items: orderItems
+        }
+        const createdOrder = await handleCreateOrder(newOrder)
+        setOrderId(createdOrder.id)
+        setIsCheckoutReady(true)
+        setShowPayment(true)
+      } catch (error) {
+        setError("Checkout failed")
+      } 
     }
 
-
-    // const fetchClientSecret = React.useCallback(() => {
-    //     // Create a Checkout Session
-
-
-
-    //     return fetch("http://localhost:3000/stripe/create-checkout-session-embedded", {
-    //       method: "POST",
-    //     })
-    //       .then((res) => res.json())
-    //       .then((data) => data.clientSecret);
-    //   }, []);
-    
-
-
-    //   const options = {fetchClientSecret};
     
       return (
         <div id="checkout">
-        <form onSubmit={handleOrder}>
+          {!showPayment ? (
+          <form onSubmit={handleOrder}>
             <label htmlFor="firstname">Firstname
             <input id="firstname" type="text" value={customer.firstname} onChange={handleChange}></input>
             </label>
@@ -150,21 +165,26 @@ export const Checkout = () => {
             <input id="country" type="text" value={customer.country} onChange={handleChange}></input>
             </label>
 
-            <button className="submit-btn" type="submit">Pay</button>
+            <button className="submit-btn" type="submit" disabled={isLoading}>Pay</button>
             <button className="cancel-btn" type="button" onClick={()=>navigate("/cart")}>Back</button>
+            {error && <p>{error}</p>}
 
         </form> 
-    
+        ) : (
+        <div>
+        {isCheckoutReady && orderId && (
+            <EmbeddedCheckoutProvider
+              stripe={stripePromise}
+              options={{ fetchClientSecret }}
+            >
+              <EmbeddedCheckout />
+            </EmbeddedCheckoutProvider>
+        )}
 
-
-
-          <h3>Betalning</h3>
-          {/* <EmbeddedCheckoutProvider
-            stripe={stripePromise}
-            // options={options}
-          >
-            <EmbeddedCheckout />
-          </EmbeddedCheckoutProvider> */}
         </div>
+        )}
+
+        </div>
+
       )
-}
+} 
