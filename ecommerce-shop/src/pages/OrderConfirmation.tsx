@@ -1,6 +1,8 @@
 import { useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router"
 import { useOrders } from "../hooks/useOrders"
+import "../styles/confirmation.css"
+
 
 export const OrderConfirmation = () => {
     const [searchParams] = useSearchParams()
@@ -34,12 +36,16 @@ export const OrderConfirmation = () => {
         <div className="confirmation-wrapper">
             <h2>Order Confirmation</h2>
             <div className="order-info">
-                <p>Thank you for shopping with us! Your order is confirmed. <br/> Order ID is {order?.id}</p>
+                <p>Thank you for shopping with us! 
+                    <br/>We've received your order and are processing it now. 
+                    <br/>A confirmation email with your order details has been sent to your inbox.
+                    <br/>If you have any questions or need assistance, please contact our support team at <a href="#">support@example.com</a></p>
                 <div className="customer-info-wrapper">
-                    <p>Name: {order?.customer_firstname} {order?.customer_lastname}</p>
-                    <p>Email: {order?.customer_email}</p>
-                    <p>Phone: {order?.customer_phone}</p>
-                    <p>Address: {order?.customer_street_address}, {order?.customer_city}, {order?.customer_country}</p>
+                    <p><strong>Order ID:</strong> {order?.id}</p>
+                    <p><strong>Name:</strong> {order?.customer_firstname} {order?.customer_lastname}</p>
+                    <p><strong>Email:</strong> {order?.customer_email}</p>
+                    <p><strong>Phone:</strong> {order?.customer_phone}</p>
+                    <p><strong>Address:</strong> {order?.customer_street_address}, {order?.customer_city}, {order?.customer_country}</p>
                 </div>
                 <div className="order-items-wrapper">
                     <h3>Products</h3>
@@ -63,8 +69,7 @@ export const OrderConfirmation = () => {
                             ))}
                         </tbody>
                     </table>
-                    <p>Total Price: {order?.total_price}</p>
-          
+                    <p className="t-price">Total Price: {order?.total_price}</p>
                 </div>
             </div>
 

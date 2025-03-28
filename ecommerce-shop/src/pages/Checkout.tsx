@@ -12,6 +12,7 @@ import { useCart } from '../hooks/useCart';
 import { useOrders } from '../hooks/useOrders';
 import axios from 'axios';
 
+
 const stripePromise = loadStripe('pk_test_51R4GtGLXMXfp1X0Luq3XRc5atnzyrApfXMCRVHgvPCDZtZxt13xgOkDTfqhYJKxZwtLMStsHzpttDCQJdkioGqjY00ZdahA5zH')
 
 export const Checkout = () => {

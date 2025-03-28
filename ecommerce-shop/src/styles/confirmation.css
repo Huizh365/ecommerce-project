@@ -1,0 +1,31 @@
+.confirmation-wrapper {
+    width: 60%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .order-info {
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        table {
+            thead {
+                background-color: #5EAAA2;
+                color: white;
+            }
+            th, td {
+                padding: 5px 10px;
+                border-bottom: 1px solid #f6f6f6;
+            }
+            tr:nth-child(even){background-color:aliceblue;}
+        }
+
+        .t-price{
+            font-size: medium;
+            font-weight: 700;
+        }
+    }
+}
