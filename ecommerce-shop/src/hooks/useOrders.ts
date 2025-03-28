@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { deleteOrder, getOrders, updateOrder } from "../services/orderService"
-import { IOrder, OrderUpdate } from "../types/Order"
+import { createOrder, deleteOrder, getOrderBySessionId, getOrders, updateOrder } from "../services/orderService"
+import { IOrder, OrderCreate, OrderUpdate } from "../types/Order"
 
 export const useOrders = () => {
     const [orders, setOrders] = useState<IOrder[]>([])
@@ -9,6 +9,7 @@ export const useOrders = () => {
     const [changedOrderStatus, setChangedOrderStatus] = useState<string>('')
     const [error, setError] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false); 
+    const [order, setOrder] = useState<IOrder | null>(null)
 
 
     const handleFetchorders = async () => {
@@ -71,6 +72,32 @@ export const useOrders = () => {
         }
     }
 
+    const handleCreateOrder = async(payload: OrderCreate) => {
+        setIsLoading(true)
+        try {
+            const data = await createOrder(payload)
+            return data 
+        } catch (error) {
+            setError("Error creating order")
+            throw error
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    const handleFetchOrderBySessionId = async(sessionId:string) => {
+        setIsLoading(true)
+        try {
+            const data = await getOrderBySessionId(sessionId)
+            setOrder(data)
+        } catch (error) {
+            setError("Error fetching order")
+            throw error
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
     return {
         orders,
         orderId,
@@ -82,7 +109,11 @@ export const useOrders = () => {
         handleDelete,
         handleUpdateOrder,
         handleSaveOrder,
+        handleCreateOrder,
         isLoading,
-        error
+        error,
+        setError,
+        handleFetchOrderBySessionId,
+        order,
     }
 }

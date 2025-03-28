@@ -15,6 +15,7 @@ import { AdminLayout } from "./pages/AdminLayout";
 import { Layout } from "./pages/Layout";
 import { Cart } from "./pages/Cart";
 import { Checkout } from "./pages/Checkout";
+import { OrderConfirmation } from "./pages/OrderConfirmation";
 
 export const router = createBrowserRouter([
     {
@@ -41,7 +42,11 @@ export const router = createBrowserRouter([
             {
                 path:"/checkout",
                 element: < Checkout />
-            }
+            },
+            {
+                path:"/order-confirmation",
+                element: < OrderConfirmation />
+            },
             
         ]
     },

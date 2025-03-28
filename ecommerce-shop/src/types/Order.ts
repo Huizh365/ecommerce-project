@@ -25,7 +25,16 @@ export interface IOrderItem {
     unit_price: number
 }
 
+export type OrderItemCreate = Pick<IOrderItem, "product_id" | "product_name" | "quantity" | "unit_price" >
+
 export type OrderItemUpdate = Pick<IOrderItem, "quantity">
 
 export type OrderUpdate = Pick<IOrder, "payment_status" | "order_status">
-export type OrderCreate = Pick<IOrder, "customer_id" | "payment_status" | "payment_id" | "order_status" | "order_items">
+
+export interface OrderCreate {
+    customer_id: number
+    payment_status: string
+    payment_id: string
+    order_status: string
+    order_items: OrderItemCreate[]
+}

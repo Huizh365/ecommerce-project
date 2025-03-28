@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { db } from "../config/db";
 import { logError } from "../utilities/logger";
-import { IOrderItem } from "../models/IOrderItem";
-import { ResultSetHeader } from "mysql2";
+import { IOrderItem, UpdateItem } from "../models/IOrderItem";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 
 export const updateOrderItem = async (req: Request, res: Response) => {
   const id: string = req.params.id;
@@ -28,8 +28,8 @@ export const updateOrderItem = async (req: Request, res: Response) => {
     console.log(rows[0].order_id)
 
     result.affectedRows === 0
-      ? res.status(404).json({message: 'OrderItem not found'})
-      : res.json({message: 'OrderItem updated'});
+      ? res.status(404).json({message: 'Order item not found'})
+      : res.json({message: 'Order item updated'});
   } catch(error) {
     res.status(500).json({error: logError(error)})
   }
@@ -45,8 +45,8 @@ export const deleteOrderItem = async (req: Request, res: Response) => {
     await updateOrderTotalPrice(rows[0].order_id);
     
     result.affectedRows === 0
-      ? res.status(404).json({message: 'OrderItem not found'})
-      : res.json({message: 'OrderItem deleted'});
+      ? res.status(404).json({message: 'Order item not found'})
+      : res.json({message: 'Order item deleted'});
   } catch (error) {
     res.status(500).json({error: logError(error)})
   }
@@ -65,6 +65,22 @@ const updateOrderTotalPrice = async (order_id: number) => {
     `;
     const params = [order_id, order_id];
     await db.query(sql, params)
+  } catch(error) {
+    throw new Error;
+  }
+}
+
+export const getOrderItemsByPaymentId = async (req: Request): Promise<UpdateItem[]> => {
+  const paymentId:string = req.params.payment_id
+  console.log("Received payment_id:", paymentId)
+  try { 
+    const sql = `
+      SELECT oi.product_id, oi.quantity 
+      FROM order_items oi
+      WHERE oi.order_id = (SELECT id FROM orders WHERE payment_id = ?)
+    `;
+    const [items] = await db.query<(UpdateItem & RowDataPacket)[]>(sql, [paymentId])
+    return items
   } catch(error) {
     throw new Error;
   }
