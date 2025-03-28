@@ -66,6 +66,27 @@ export const updateProduct = async (req: Request, res: Response) => {
   }
 }
 
+
+export const updateStock = async (req: Request, res: Response) => {
+  const id = req.params.id
+  const { sold } = req.body
+  try {
+    const sql = `
+      UPDATE products 
+      SET stock = stock - ? 
+      WHERE id = ?
+    `;
+    const params = [sold, id]
+    const [result] = await db.query<ResultSetHeader>(sql, params)
+    
+    result.affectedRows === 0
+      ? res.status(404).json({message: 'Product not found'})
+      : res.json({message: 'Product updated'});
+  } catch(error) {
+    res.status(500).json({error: logError(error)})
+  }
+}
+
 export const deleteProduct = async (req: Request, res: Response) => { 
   const id = req.params.id;
   

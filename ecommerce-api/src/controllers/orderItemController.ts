@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { db } from "../config/db";
 import { logError } from "../utilities/logger";
-import { IOrderItem } from "../models/IOrderItem";
-import { ResultSetHeader } from "mysql2";
+import { IOrderItem, UpdateItem } from "../models/IOrderItem";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
 
 export const updateOrderItem = async (req: Request, res: Response) => {
   const id: string = req.params.id;
@@ -65,6 +65,22 @@ const updateOrderTotalPrice = async (order_id: number) => {
     `;
     const params = [order_id, order_id];
     await db.query(sql, params)
+  } catch(error) {
+    throw new Error;
+  }
+}
+
+export const getOrderItemsByPaymentId = async (req: Request): Promise<UpdateItem[]> => {
+  const paymentId:string = req.params.payment_id
+  console.log("Received payment_id:", paymentId)
+  try { 
+    const sql = `
+      SELECT oi.product_id, oi.quantity 
+      FROM order_items oi
+      WHERE oi.order_id = (SELECT id FROM orders WHERE payment_id = ?)
+    `;
+    const [items] = await db.query<(UpdateItem & RowDataPacket)[]>(sql, [paymentId])
+    return items
   } catch(error) {
     throw new Error;
   }

@@ -9,3 +9,5 @@ export interface IOrderItem extends RowDataPacket {
   unit_price: number
   created_at: string
 }
+
+export type UpdateItem = Pick<IOrderItem, "product_id" | "quantity">
