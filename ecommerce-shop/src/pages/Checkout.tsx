@@ -135,35 +135,35 @@ export const Checkout = () => {
           {!showPayment ? (
           <form onSubmit={handleOrder}>
             <label htmlFor="firstname">Firstname
-            <input id="firstname" type="text" value={customer.firstname} onChange={handleChange}></input>
+            <input id="firstname" type="text" value={customer.firstname} onChange={handleChange} required></input>
             </label>
             
             <label htmlFor="lastname">Lastname
-            <input id="lastname" type="text" value={customer.lastname} onChange={handleChange}></input>
+            <input id="lastname" type="text" value={customer.lastname} onChange={handleChange} required></input>
             </label>
 
             <label htmlFor="email">Email
-            <input id="email" type="text" value={customer.email} onChange={handleChange}></input>
+            <input id="email" type="text" value={customer.email} onChange={handleChange} required></input>
             </label>
 
             <label htmlFor="phone">Phone
-            <input id="phone" type="text" value={customer.phone} onChange={handleChange}></input>
+            <input id="phone" type="text" value={customer.phone} onChange={handleChange} required></input>
             </label>
 
             <label htmlFor="postal_code">Postal-code
-            <input id="postal_code" type="text" value={customer.postal_code} onChange={handleChange}></input>
+            <input id="postal_code" type="text" value={customer.postal_code} onChange={handleChange} required></input>
             </label>
 
             <label id="address-label" htmlFor="street_address">Address
-            <input id="street_address" type="text" value={customer.street_address} onChange={handleChange}></input>
+            <input id="street_address" type="text" value={customer.street_address} onChange={handleChange} required></input>
             </label>
 
             <label htmlFor="city">City
-            <input id="city" type="text" value={customer.city} onChange={handleChange}></input>
+            <input id="city" type="text" value={customer.city} onChange={handleChange} required></input>
             </label>
 
             <label htmlFor="country">Country
-            <input id="country" type="text" value={customer.country} onChange={handleChange}></input>
+            <input id="country" type="text" value={customer.country} onChange={handleChange} required></input>
             </label>
 
             <button className="submit-btn" type="submit" disabled={isLoading}>Pay</button>
