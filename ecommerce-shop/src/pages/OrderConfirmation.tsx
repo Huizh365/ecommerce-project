@@ -2,12 +2,15 @@ import { useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router"
 import { useOrders } from "../hooks/useOrders"
 import "../styles/confirmation.css"
+import { useCart } from "../hooks/useCart"
+import { ICartActionType } from "../reducers/CartReducer"
 
 
 export const OrderConfirmation = () => {
     const [searchParams] = useSearchParams()
     const navigate = useNavigate()
     const { order, handleFetchOrderBySessionId, isLoading, error, setError } = useOrders()
+    const {dispatch} = useCart()
 
     useEffect(()=> {
         const sessionId = searchParams.get("session_id")
@@ -18,9 +21,11 @@ export const OrderConfirmation = () => {
         const fetchOrder = async () => {
             try {
                 handleFetchOrderBySessionId(sessionId) 
-
-                localStorage.removeItem("cart")
                 localStorage.removeItem("customer")
+                dispatch({ 
+                    type: ICartActionType.RESET_CART, 
+                    payload: null 
+                })
             } catch (error) {
                 setError("Failed loading order")
             }
@@ -69,7 +74,7 @@ export const OrderConfirmation = () => {
                             ))}
                         </tbody>
                     </table>
-                    <p className="t-price">Total Price: {order?.total_price}</p>
+                    <p className="t-price">Total Price: {order?.total_price} SEK</p>
                 </div>
             </div>
 
