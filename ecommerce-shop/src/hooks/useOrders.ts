@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { createOrder, deleteOrder, getOrders, updateOrder } from "../services/orderService"
+import { createOrder, deleteOrder, getOrderBySessionId, getOrders, updateOrder } from "../services/orderService"
 import { IOrder, OrderCreate, OrderUpdate } from "../types/Order"
 
 export const useOrders = () => {
@@ -9,6 +9,7 @@ export const useOrders = () => {
     const [changedOrderStatus, setChangedOrderStatus] = useState<string>('')
     const [error, setError] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false); 
+    const [order, setOrder] = useState<IOrder | null>(null)
 
 
     const handleFetchorders = async () => {
@@ -84,6 +85,19 @@ export const useOrders = () => {
         }
     }
 
+    const handleFetchOrderBySessionId = async(sessionId:string) => {
+        setIsLoading(true)
+        try {
+            const data = await getOrderBySessionId(sessionId)
+            setOrder(data)
+        } catch (error) {
+            setError("Error fetching order")
+            throw error
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
     return {
         orders,
         orderId,
@@ -97,6 +111,9 @@ export const useOrders = () => {
         handleSaveOrder,
         handleCreateOrder,
         isLoading,
-        error
+        error,
+        setError,
+        handleFetchOrderBySessionId,
+        order,
     }
 }

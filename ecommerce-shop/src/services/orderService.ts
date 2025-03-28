@@ -22,3 +22,7 @@ export const updateOrder = async (id:number, payload:OrderUpdate):Promise<IOrder
 export const createOrder = async (payload:OrderCreate):Promise<IOrder> => {
     return await handleRequest<IOrder>(axios.post(`${BASE_URL}orders`, payload))
 }
+
+export const getOrderBySessionId = async (sessionId:string) => {
+    return await handleRequest<IOrder>(axios.get(`${BASE_URL}orders/payment/${sessionId}`))
+}

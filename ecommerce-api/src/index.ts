@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express,  { Request, Response } from "express";
 import {connectDB} from "./config/db";
 import cors from "cors";
+import { IOrder } from "./models/IOrder";
 
 dotenv.config();
 const app = express();
@@ -15,6 +16,7 @@ import productRouter from "./routes/products";
 import customerRouter from "./routes/customers";
 import orderRouter from "./routes/orders";
 import orderItemRouter from "./routes/orderItems";
+import { updateOrder } from "./controllers/orderController";
 app.use('/products', productRouter)
 app.use('/customers', customerRouter)
 app.use('/orders', orderRouter)
@@ -38,26 +40,42 @@ app.post('/stripe/create-checkout-session-embedded', async (req: Request, res: R
 
 
 
-app.post('/stripe/webhook', (req: Request, res: Response) => {
+app.post('/stripe/webhook', async (req: Request, res: Response) => {
   const event = req.body;
 
-  // Handle the event
   switch (event.type) {
-    case 'checkout.session.completed':
-      const session = event.data.object;
-      console.log(session);
+    case 'checkout.session.created': {
+      const session = event.data.object
+      await updateOrder(
+        {params: {id: session.client_reference_id}, 
+         body: {
+          payment_id: session.id,
+          payment_status: "unpaid",
+          order_status: "pending",
+        }} as any, {json: () => {}, status: () => {json: () => {}}} as any
+      )
+      break
       
-      // Update order with confirmed payment
-      // -- payment_status = "Paid"
-      // -- payment_id = session.id
-      // -- order_status = "Received"
+    }
+
+    case 'checkout.session.completed': {
+      const session = event.data.object;
+      
+      await updateOrder(
+        {params: {id: session.client_reference_id}, 
+         body: {
+          payment_id: session.id,
+          payment_status: "paid",
+          order_status: "received",
+        }} as any, {json: () => {}, status: () => {json: () => {}}} as any
+      )
+
 
       // Update product stock
 
-      // Send confirmation email to customer
-
-      // Sen purchase to accounting service
-      console.log(event.type.object);
+      break
+    }
+      
    
     default:
       console.log(`Unhandled event type ${event.type}`);
